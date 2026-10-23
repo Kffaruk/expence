@@ -3,6 +3,9 @@ on:
   workflow_dispatch:
   push:
     branches: [main, master]
+defaults:
+  run:
+    working-directory: khoroch-khata-apk-project
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,11 +30,11 @@ jobs:
       - name: Sync web files
         run: npx cap sync android
       - name: Build debug APK
-        working-directory: android
+        working-directory: khoroch-khata-apk-project/android
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: khoroch-khata-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: khoroch-khata-apk-project/android/app/build/outputs/apk/debug/app-debug.apk
